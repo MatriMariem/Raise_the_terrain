@@ -2,21 +2,24 @@
 
 /**
  * makegrid - creates an isometric grid
- * @altitudes: altitudes of each point
+ * @argv: arguments passed to the main program
  * Return: grid
  */
-SDL_Point ***makegrid(int **altitudes)
+SDL_Point ***makegrid(char **argv)
 {
 	SDL_Point ***grid;
 	SDL_Point **row;
 	SDL_Point **col;
-	grid = malloc(sizeof(SDL_Point **) * 2);
+	int **altitudes;
 
+	grid = malloc(sizeof(SDL_Point **) * 2);
+	altitudes = get_altitudes(argv);
 	row = makerow(altitudes);
 	col = makecol(altitudes);
 
 	grid[0] = row;
 	grid[1] = col;
+	freenumbers(altitudes);
 	return (grid);
 }
 
@@ -80,5 +83,18 @@ SDL_Point **makecol(int **altitudes)
 	}
 
 	return (col);
+}
+
+/**
+ * freenumbers - frees a 2D array of integers
+ * @numbers: name of the array
+ */
+void freenumbers(int **numbers)
+{
+	int i;
+
+	for (i = 0; i < 8; i++)
+		free(numbers[i]);
+	free(numbers);
 }
 

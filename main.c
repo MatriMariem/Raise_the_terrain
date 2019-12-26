@@ -11,7 +11,6 @@
 
 int main(int argc, char **argv)
 {
-	int **altitudes;
 	SDL_Window *win;
 	SDL_Renderer *ren;
 	SDL_Point ***grid;
@@ -22,9 +21,7 @@ int i;
 		printf("Usage: ./terrain altitudes\n");
 		return (EXIT_FAILURE);
 	}
-	
-	altitudes = get_altitudes(argv);
-	
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		printf("error in init : %s\n", SDL_GetError());
@@ -36,36 +33,12 @@ int i;
 	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED
 			| SDL_RENDERER_PRESENTVSYNC);
 
+grid = makegrid(argv);
+Drawgrid(ren, grid);
 
-SDL_SetRenderDrawColor(ren, 255,  255, 255, 255);
-grid = makegrid(altitudes);
-for (i = 0; i < 8; i++)
-SDL_RenderDrawLines(ren, grid[0][i], 8);
-for (i = 0; i < 8; i++)
-SDL_RenderDrawLines(ren, grid[1][i], 8);
-SDL_RenderPresent(ren);
-
-
-	freenumbers(altitudes);
 /*free grid, row and col*/
 
 	SDL_Delay(5000);
-	SDL_DestroyRenderer(ren);
-	SDL_DestroyWindow(win);
-	SDL_Quit();
+	Destroy_Quit(ren, win);
 	return (0);
-}
-
-
-/**
- * freenumbers - frees a 2D array of integers
- * @numbers: name of the array
- */
-void freenumbers(int **numbers)
-{
-	int i;
-
-	for (i = 0; i < 8; i++)
-		free(numbers[i]);
-	free(numbers);
 }

@@ -16,7 +16,8 @@ int main(int argc, char **argv)
 	SDL_Point ***grid, ***new_grid = NULL;
 	SDL_bool running = SDL_TRUE;
 	SDL_Event event;
-	int a, Angle = 0;
+	int Angle;
+	float a;
 
 	if (argc != 2)
 	{
@@ -51,15 +52,15 @@ int main(int argc, char **argv)
 				else
 					Angle--;
 				a = Angle * M_PI / 180;
-				new_grid = rotategrid(grid, new_grid, a, argv);
+				new_grid = rotategrid(grid, a);
 				SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 				SDL_RenderClear(ren);
 				Drawgrid(ren, new_grid);
-				SDL_RenderPresent(ren);
+				freegrid(new_grid);
 			}
 		}
 	}
-	freegrid(grid, new_grid);
+	freegrid(grid);
 	Destroy_Quit(ren, win);
 	return (0);
 }

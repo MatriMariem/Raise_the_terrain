@@ -20,41 +20,34 @@ void Drawgrid(SDL_Renderer *ren, SDL_Point ***grid)
 /**
  * rotategrid - rotates the points of a grid
  * @grid: original isometric grid
- * @new_grid: rotated grid
- * @a: angle of rotation
- * @argv: array of arguments passed to the program
- * Return: the rotated grid
- */
-SDL_Point ***rotategrid(SDL_Point ***grid, SDL_Point ***new_grid, int
-		a, char **argv)
-{
-
-	if (!new_grid)
-		new_grid = makegrid(argv);
-	new_grid = Editgrid(grid, new_grid, a);
-
-	return (new_grid);
-}
-
-/**
- * Editgrid - edits the coordinates of the original grid into the new grid
- * @grid: original grid
- * @new_grid: rotated grid
  * @a: angle of rotation
  * Return: the rotated grid
  */
-SDL_Point ***Editgrid(SDL_Point ***grid, SDL_Point ***new_grid, int a)
+SDL_Point ***rotategrid(SDL_Point ***grid, float a)
 {
 	int i, j, k;
+	SDL_Point ***new_grid;
 
+	new_grid = malloc(sizeof(SDL_Point **) * 2);
+	new_grid[0] = malloc(sizeof(SDL_Point *) * 8);
+	new_grid[1] = malloc(sizeof(SDL_Point *) * 8);
+	for (i = 0; i < 8; i++)
+	{
+		new_grid[0][i] = malloc(sizeof(SDL_Point) * 8);
+		new_grid[1][i] = malloc(sizeof(SDL_Point) * 8);
+	}
 	for (k = 0; k < 2; k++)
 	{
 		for (i = 0; i < 8; i++)
 		{
 			for (j = 0; j < 8; j++)
 			{
-				new_grid[k][i][j].x = grid[k][i][j].x * cos(a) - grid[k][i][j].y * sin(a);
-				new_grid[k][i][j].y = grid[k][i][j].x * sin(a) + grid[k][i][j].y * cos(a);
+				new_grid[k][i][j].x =
+				(grid[k][i][j].x - 500) * cos(a) -
+				(grid[k][i][j].y - 400) * sin(a) + 500;
+				new_grid[k][i][j].y =
+				(grid[k][i][j].x - 500) * sin(a) +
+				(grid[k][i][j].y - 400) * cos(a) + 400;
 			}
 		}
 	}
@@ -62,11 +55,10 @@ SDL_Point ***Editgrid(SDL_Point ***grid, SDL_Point ***new_grid, int a)
 }
 
 /**
- * freegrid - frees the original and rotated grid
+ * freegrid - frees a grid
  * @grid: the original grid
- * @new_grid: the rotated grid
  */
-void freegrid(SDL_Point ***grid, SDL_Point ***new_grid)
+void freegrid(SDL_Point ***grid)
 {
 	int k, i;
 
@@ -79,19 +71,6 @@ void freegrid(SDL_Point ***grid, SDL_Point ***new_grid)
 		free(grid[k]);
 	}
 	free(grid);
-	if (new_grid)
-	{
-		for (k = 0; k < 2; k++)
-		{
-			for (i = 0; i < 8; i++)
-			{
-				free(new_grid[k][i]);
-			}
-			free(new_grid[k]);
-		}
-		free(new_grid);
-
-	}
 }
 
 /**

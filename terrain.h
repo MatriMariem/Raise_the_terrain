@@ -11,6 +11,7 @@
 #include <string.h>
 
 #include <SDL.h>
+#include <math.h>
 
 int _atoi(char *s);
 char *_strdup(char *str);
@@ -25,5 +26,10 @@ SDL_Point **makecol(int **altitudes);
 
 void Drawgrid(SDL_Renderer *ren, SDL_Point ***grid);
 void Destroy_Quit(SDL_Renderer *ren, SDL_Window *win);
+
+SDL_Point ***rotategrid(SDL_Point ***grid, SDL_Point ***new_grid, int
+		a, char **argv);
+SDL_Point ***Editgrid(SDL_Point ***grid, SDL_Point ***new_grid, int a);
+void freegrid(SDL_Point ***grid, SDL_Point ***new_grid);
 
 #endif

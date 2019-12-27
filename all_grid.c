@@ -48,14 +48,14 @@ void makerot(SDL_Point ***grid, float a)
 			for (j = 0; j < 8; j++)
 			{
 				rotx =
-				(grid[k][i][j].x - 500) * cos(a) -
-				(grid[k][i][j].y - 400) * sin(a) +
-					500;
+				(grid[k][i][j].x - 1050) * cos(a) -
+				(grid[k][i][j].y - 350) * sin(a) +
+					1050;
 
 				roty =
-				(grid[k][i][j].x - 500) * sin(a) +
-				(grid[k][i][j].y - 400) * cos(a) +
-					400;
+				(grid[k][i][j].x - 1050) * sin(a) +
+				(grid[k][i][j].y - 350) * cos(a) +
+					350;
 				grid[k][i][j].x = rotx;
 				grid[k][i][j].y = roty;
 			}

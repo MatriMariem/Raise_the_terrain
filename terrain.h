@@ -18,16 +18,25 @@ char *_strdup(char *str);
 char **splitstring(char *str, const char *delim);
 void freearv(char **arv);
 int **get_altitudes(char **argv);
-void freenumbers(int **numbers);
 
-SDL_Point ***makegrid(char **argv);
-SDL_Point **makerow(int **altitudes);
-SDL_Point **makecol(int **altitudes);
 
+SDL_Point ***allocategrid(void);
+SDL_Point ***makegrid(void);
+void makerow(SDL_Point ***simple_grid);
+void makecol(SDL_Point ***simple_grid);
+void makeiso(SDL_Point ***isogrid, char **argv);
+
+
+void All_isogrid(SDL_Renderer *ren, char **argv);
 void Drawgrid(SDL_Renderer *ren, SDL_Point ***grid);
+void makerot(SDL_Point ***grid, float a);
+void rotategrid(SDL_Renderer *ren, char **argv, float a);
+
+
+void freegrid(SDL_Point ***grid);
+void freenumbers(int **numbers);
 void Destroy_Quit(SDL_Renderer *ren, SDL_Window *win);
 
-SDL_Point ***rotategrid(SDL_Point ***grid, float a);
-void freegrid(SDL_Point ***grid);
+
 
 #endif

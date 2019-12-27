@@ -1,100 +1,123 @@
 #include "terrain.h"
 
 /**
- * makegrid - creates an isometric grid
- * @argv: arguments passed to the main program
- * Return: grid
+ * allocategrid - allocates memory for a grid
+ * Return: pointer to the allocated memory
  */
-SDL_Point ***makegrid(char **argv)
+SDL_Point ***allocategrid(void)
 {
+	int i;
 	SDL_Point ***grid;
-	SDL_Point **row;
-	SDL_Point **col;
-	int **altitudes;
 
 	grid = malloc(sizeof(SDL_Point **) * 2);
-	altitudes = get_altitudes(argv);
-	row = makerow(altitudes);
-	col = makecol(altitudes);
-
-	grid[0] = row;
-	grid[1] = col;
-	freenumbers(altitudes);
+	grid[0] = malloc(sizeof(SDL_Point *) * 8);
+	grid[1] = malloc(sizeof(SDL_Point *) * 8);
+	for (i = 0; i < 8; i++)
+	{
+		grid[0][i] = malloc(sizeof(SDL_Point) * 8);
+		grid[1][i] = malloc(sizeof(SDL_Point) * 8);
+	}
 	return (grid);
+}
+/**
+ * makegrid - creates a simple grid
+ * Return: pointer to the simple grid
+ */
+SDL_Point ***makegrid(void)
+{
+	SDL_Point ***simple_grid;
+
+	simple_grid = allocategrid();
+
+	makerow(simple_grid);
+	makecol(simple_grid);
+	return (simple_grid);
 }
 
 /**
- * makerow - creates the isometric rows of the grid
- * @altitudes: altitudes of each point
- * Return: pointer to rows
+ * makerow - fills the rows of a simple grid
+ * @simple_grid: pointer of the simple grid
  */
-SDL_Point **makerow(int **altitudes)
+void makerow(SDL_Point ***simple_grid)
 {
-	int i, j, x = 700, y = 0, isox, isoy;
-	SDL_Point **row;
-
-	row = malloc(sizeof(SDL_Point *) * 8);
-	for (i = 0; i < 8; i++)
-		row[i] = malloc(sizeof(SDL_Point) * 8);
+	int i, j, x = 700, y = 0;
 
 	for (i = 0; i < 8; i++)
 	{
 		for (j = 0; j < 8; j++)
 		{
-			row[i][j].x = x;
-			row[i][j].y = y;
-			x = row[i][j].x + 100;
-			isox = 0.7 * row[i][j].x - 0.7 * row[i][j].y;
-			isoy = 0.3 * row[i][j].x + 0.3 * row[i][j].y - altitudes[i][j];
-			row[i][j].x = isox;
-			row[i][j].y = isoy;
+			simple_grid[0][i][j].x = x;
+			simple_grid[0][i][j].y = y;
+			x = simple_grid[0][i][j].x + 100;
 		}
 		x = 700;
 		y += 100;
 	}
-
-	return (row);
 }
 
-SDL_Point **makecol(int **altitudes)
+/**
+ * makecol - fills the columns of a simple grid
+ * @simple_grid: pointer of the simple grid
+ */
+void makecol(SDL_Point ***simple_grid)
 {
-	int i, j, x = 700, y = 0, isox, isoy;
-	SDL_Point **col;
-
-	col = malloc(sizeof(SDL_Point *) * 8);
-	for (i = 0; i < 8; i++)
-		col[i] = malloc(sizeof(SDL_Point) * 8);
-
+	int i, j, x = 700, y = 0;
 
 	for (i = 0; i < 8; i++)
 	{
 		for (j = 0; j < 8; j++)
 		{
-			col[i][j].x = x;
-			col[i][j].y = y;
-			y = col[i][j].y + 100;
-			isox = 0.7 * col[i][j].x - 0.7 * col[i][j].y;
-			isoy = 0.3 * col[i][j].x + 0.3 * col[i][j].y - altitudes[j][i];
-			col[i][j].x = isox;
-			col[i][j].y = isoy;
+			simple_grid[1][i][j].x = x;
+			simple_grid[1][i][j].y = y;
+			y = simple_grid[1][i][j].y + 100;
 		}
 		y = 0;
 		x += 100;
 	}
 
-	return (col);
 }
 
 /**
- * freenumbers - frees a 2D array of integers
- * @numbers: name of the array
+ * makeiso - makes a grid become isometric
+ * @isogrid: the initial grid
+ * @argv: arguments passed to the main program
  */
-void freenumbers(int **numbers)
+void makeiso(SDL_Point ***isogrid, char **argv)
 {
-	int i;
+	int **altitudes;
+	int i, j, isox, isoy;
+
+	altitudes = get_altitudes(argv);
 
 	for (i = 0; i < 8; i++)
-		free(numbers[i]);
-	free(numbers);
+	{
+		for (j = 0; j < 8; j++)
+		{
+			isox = 0.7 * isogrid[0][i][j].x -
+				0.7 * isogrid[0][i][j].y;
+
+			isoy = 0.3 * isogrid[0][i][j].x +
+				0.3 * isogrid[0][i][j].y - altitudes[i][j];
+			isogrid[0][i][j].x = isox;
+			isogrid[0][i][j].y = isoy;
+		}
+	}
+
+	for (i = 0; i < 8; i++)
+	{
+		for (j = 0; j < 8; j++)
+		{
+			isox = 0.7 * isogrid[1][i][j].x -
+				0.7 * isogrid[1][i][j].y;
+
+			isoy = 0.3 * isogrid[1][i][j].x +
+				0.3 * isogrid[1][i][j].y - altitudes[j][i];
+
+			isogrid[1][i][j].x = isox;
+			isogrid[1][i][j].y = isoy;
+		}
+	}
+
+	freenumbers(altitudes);
 }
 

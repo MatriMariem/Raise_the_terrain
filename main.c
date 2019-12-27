@@ -23,11 +23,7 @@ int main(int argc, char **argv)
 		printf("Usage: ./terrain altitudes\n");
 		return (EXIT_FAILURE);
 	}
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-	{
-		printf("error in init : %s\n", SDL_GetError());
-		return (EXIT_FAILURE);
-	}
+	SDL_Init(SDL_INIT_EVERYTHING);
 	win = SDL_CreateWindow("Welcome to SDL 2!", 0, 0, 1000, 800,
 			SDL_WINDOW_OPENGL);
 	ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED
@@ -45,10 +41,7 @@ int main(int argc, char **argv)
 			}
 			if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_LEFT)
 			{
-				if (event.key.keysym.sym == SDLK_RIGHT)
-					Angle++;
-				else
-					Angle--;
+				Angle = (event.key.keysym.sym == SDLK_RIGHT) ? Angle + 1 : Angle - 1;
 				a = Angle * M_PI / 180;
 				SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 				SDL_RenderClear(ren);

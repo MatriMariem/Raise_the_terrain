@@ -1,5 +1,8 @@
 # Raise The Terrain
 **An isometric projection of a grid that rotates when pressing Right or Left arrow**
+![grid1](/grid1.png)
+![grid2](/grid2.png)
+![grid3](/grid3.png)
 ****
 ## About this project
 Raise The Terrain is a voluntary project at Holberton School taking part of the "Low-level programming & Algorithm" projects.\
@@ -73,3 +76,12 @@ Mariem Matri : [LinkedIn] | [GitHub] | [Twitter]
 [LinkedIn]: <https://www.linkedin.com/in/mariem-matri-249620178>
 [GitHub]: <https://github.com/MatriMariem>
 [Twitter]: <https://twitter.com/MatriMariem>
+
+## AUTHOR DESCRIPTION (Mariem Matri)
+ - I'm a Food Process Engineer and a software engineering student at Holberton School.
+  - I have been studying low-level programming, high-level
+ programming, system engineering and devops, and web
+ stack programming (Front-end & Back-end) using a
+ methodology based on peer-learning and projects.
+  - I'm curious, adaptable, a fast learner and I love developing
+ my skills.

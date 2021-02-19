@@ -1,8 +1,8 @@
 # Raise The Terrain
 **An isometric projection of a grid that rotates when pressing Right or Left arrow**
-![grid1](/grid1.png)
-![grid2](/grid2.png)
-![grid3](/grid3.png)
+![grid1](/grid1.jpg)
+![grid2](/grid2.jpg)
+![grid3](/grid3.jpg)
 ****
 ## About this project
 Raise The Terrain is a voluntary project at Holberton School taking part of the "Low-level programming & Algorithm" projects.\
